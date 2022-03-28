@@ -1,14 +1,25 @@
+---
 name: CI/CD
 on:
   push:
   workflow_dispatch:
-    # TODO add inputs here for logLevel, environment: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#providing-inputs
   repository_dispatch:
     types: [trigger]
 
 jobs:
-  call-workflow:
-    uses: jmpa-io/depot/.github/workflows/cicd.yml@main
+  lint:
+    uses: jmpa-io/depot/.github/workflows/lint.yml@main
     secrets:
       github-token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
-      slack-webhook: ${{ secrets.SLACK_GITHUB_WEBHOOK_URL }}
+
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Test latest version of action.
+      uses: ./
+      with:
+        webhook: ${{ secrets.SLACK_GITHUB_WEBHOOK_URL }}
+        status: ${{ job.status }}
