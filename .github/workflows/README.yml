@@ -1,0 +1,16 @@
+name: Update README.md?
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - '.github/workflows/*'
+      - 'img/*'
+  workflow_dispatch:
+
+jobs:
+  call-workflow:
+    uses: jmpa-io/depot/.github/workflows/README.yml@main
+    if: github.repository == 'jmpa-io/root-template'
+    secrets:
+      github-token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
+      slack-webhook: ${{ secrets.SLACK_GITHUB_WEBHOOK_URL }}
