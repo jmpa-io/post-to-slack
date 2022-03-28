@@ -50,9 +50,15 @@ The status of the running GitHub Action job.
 
 ## Pushing new tag?
 
+Using a <kbd>terminal</kbd>, run:
+
 ```bash
-git tag -m "<message>" <version>
-git push --tags
+git tag v<version>
+git push origin v<version>
+
+# for example
+git tag v0.0.1
+git push origin v0.0.1
 ```
 
 %SCRIPTS_TABLE%
