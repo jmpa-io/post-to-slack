@@ -1,0 +1,17 @@
+name: notify-slack
+description: |
+  A GitHub Action for sending notifications from running jobs to Slack (via a given webhook).
+author: jmpa-io
+runs:
+  using: docker
+  image: Dockerfile
+inputs:
+  webhook:
+    description: |
+      The Slack webhook to post to; This is created / managed
+      by a custom Slack App in your workspace.
+    required: true
+  status:
+    description: |
+      The status of the running GitHub Action job.
+    required: true
