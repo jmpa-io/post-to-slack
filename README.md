@@ -13,7 +13,7 @@
 + a given webhook).
 ```
 
-* Inspired by https://github.com/8398a7/action-slack
+* Inspired by https://github.com/8398a7/action-slack.
 * To learn about creating a custom GitHub Action like this, see [this doc](https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-docker-container-action).
 
 ## Usage
@@ -54,7 +54,13 @@ The status of the running GitHub Action job.
 
 ## Pushing new tag?
 
+Using a <kbd>terminal</kbd>, run:
+
 ```bash
-git tag -m "<message>" <version>
-git push --tags
+git tag v<version>
+git push origin v<version>
+
+# for example
+git tag v0.0.1
+git push origin v0.0.1
 ```
