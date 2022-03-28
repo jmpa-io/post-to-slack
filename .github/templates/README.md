@@ -9,7 +9,7 @@
 %DESCRIPTION%
 ```
 
-* Inspired by https://github.com/8398a7/action-slack
+* Inspired by https://github.com/8398a7/action-slack.
 * To learn about creating a custom GitHub Action like this, see [this doc](https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-docker-container-action).
 
 ## Usage
