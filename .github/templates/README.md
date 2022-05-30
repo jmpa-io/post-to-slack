@@ -17,7 +17,7 @@
 basic usage:
 ```yaml
 - name: Notify Slack
-  uses: jmpa-oss/notify-slack@v0.0.1
+  uses: jmpa-io/notify-slack@v0.0.1
   with:
     webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
     status: ${{ job.status }}
@@ -27,7 +27,7 @@ with if conditionals ([see doc](https://docs.github.com/en/free-pro-team@latest/
 ```yaml
 - name: Notify Slack
   if: success() # accepts: success(), always(), cancelled(), failure()
-  uses: jmpa-oss/notify-slack@v0.0.1
+  uses: jmpa-io/notify-slack@v0.0.1
   with:
     webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
     status: ${{ job.status }}
