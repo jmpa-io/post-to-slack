@@ -1,12 +1,12 @@
 <!-- markdownlint-disable MD041 MD010 MD034 -->
-[![notify-slack](https://github.com/jmpa-io/notify-slack/actions/workflows/cicd.yml/badge.svg)](https://github.com/jmpa-io/notify-slack/actions/workflows/cicd.yml)
-[![notify-slack](https://github.com/jmpa-io/notify-slack/actions/workflows/README.yml/badge.svg)](https://github.com/jmpa-io/notify-slack/actions/workflows/README.yml)
+[![post-to-slack](https://github.com/jmpa-io/post-to-slack/actions/workflows/cicd.yml/badge.svg)](https://github.com/jmpa-io/post-to-slack/actions/workflows/cicd.yml)
+[![post-to-slack](https://github.com/jmpa-io/post-to-slack/actions/workflows/README.yml/badge.svg)](https://github.com/jmpa-io/post-to-slack/actions/workflows/README.yml)
 
 <p align="center">
   <img src="img/logo.png"/>
 </p>
 
-# `notify-slack`
+# `post-to-slack`
 
 ```diff
 + 🐋 A GitHub Action for sending notifications from running jobs to Slack (via
@@ -20,8 +20,8 @@
 
 basic usage:
 ```yaml
-- name: Notify Slack
-  uses: jmpa-io/notify-slack@v0.0.1
+- name: Post to Slack.
+  uses: jmpa-io/post-to-slack@v0.0.1
   with:
     webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
     status: ${{ job.status }}
@@ -29,9 +29,9 @@ basic usage:
 
 with if conditionals ([see doc](https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#job-status-check-functions)):
 ```yaml
-- name: Notify Slack
+- name: Post to Slack.
   if: success() # accepts: success(), always(), cancelled(), failure()
-  uses: jmpa-io/notify-slack@v0.0.1
+  uses: jmpa-io/post-to-slack@v0.0.1
   with:
     webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
     status: ${{ job.status }}
