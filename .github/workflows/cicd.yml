@@ -8,7 +8,7 @@ on:
 
 jobs:
   lint:
-    uses: jmpa-io/depot/.github/workflows/lint.yml@main
+    uses: jmpa-io/root/.github/workflows/lint.yml@main
     secrets:
       github-token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
 
