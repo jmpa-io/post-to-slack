@@ -1,4 +1,4 @@
-name: notify-slack
+name: post-to-slack
 description: |
   A GitHub Action for sending notifications from running jobs to Slack (via a given webhook).
 author: jmpa-io
