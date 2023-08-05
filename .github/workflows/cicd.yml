@@ -2,24 +2,33 @@
 name: CI/CD
 on:
   push:
+    paths:
+    - '.github/workflows/cicd.yml'
+    - 'bin/*'
+    - 'cf/**'
+    - 'cmd/**'
+    - 'templates/**'
+    - '**Dockerfile'
+    - 'Makefile*'
   workflow_dispatch:
   repository_dispatch:
-    types: [trigger]
+    types: [update-cicd]
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   lint:
-    uses: jmpa-io/root/.github/workflows/lint.yml@main
-    secrets:
-      github-token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
+    uses: jmpa-io/roots/.github/workflows/lint.yml@main
+    secrets: inherit
 
   test:
-    runs-on: ubuntu-20.04
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+    uses: jmpa-io/roots/.github/workflows/test.yml@main
+    secrets: inherit
 
-    - name: Test latest version of action.
-      uses: ./
-      with:
-        webhook: ${{ secrets.SLACK_GITHUB_WEBHOOK_URL }}
-        status: ${{ job.status }}
+  post-to-slack:
+    needs: [lint, test]
+    if: always()
+    uses: jmpa-io/roots/.github/workflows/post-to-slack.yml@main
+    secrets: inherit
