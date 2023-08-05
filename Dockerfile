@@ -1,5 +1,5 @@
-FROM alpine:3.15
-RUN apk add --no-cache \
+FROM alpine:latest
+RUN apk add --update --no-cache \
     bash \
     jq \
     curl \
