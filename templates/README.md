@@ -9,7 +9,7 @@
 %DESCRIPTION%
 ```
 
-* Inspired by [action-slack by 8398a7](https://github.com/8398a7/action-slack); Created using [this doc](https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-docker-container-action) from GitHub.
+* Inspired by [`action-slack` by `8398a7`](https://github.com/8398a7/action-slack); Created using [this doc](https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-docker-container-action) from GitHub.
 
 ## `usage`
 
