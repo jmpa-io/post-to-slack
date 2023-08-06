@@ -112,7 +112,7 @@ read -d '' q <<@
 }
 @
 
-# validate query is json.
+# validate query is valid json.
 [[ $(<<<"$q" jq '. | tojson') ]] \
   || die "query is an invalid json payload"
 
