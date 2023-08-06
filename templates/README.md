@@ -9,31 +9,34 @@
 %DESCRIPTION%
 ```
 
-* Inspired by https://github.com/8398a7/action-slack.
-* To learn about creating a custom GitHub Action like this, see [this doc](https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-docker-container-action).
+* Inspired by [action-slack by 8398a7](https://github.com/8398a7/action-slack); Created using [this doc](https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-docker-container-action) from GitHub.
 
-## Usage
+## `usage`
 
-basic usage:
+General:
 ```yaml
+# general
 - name: Post to Slack.
-  uses: jmpa-io/post-to-slack@v0.0.1
+  uses: jmpa-io/post-to-slack@main
   with:
     webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
     status: ${{ job.status }}
 ```
+> If you're unsure how to create the `${{ secrets.SLACK_WEBHOOK_URL }}`, see [this doc from Slack around creating a custom Slack App for your Slack workspace](ttps://api.slack.com/messaging/webhooks).
 
-with if conditionals ([see doc](https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#job-status-check-functions)):
+> If you're unsure how to retrieve the `${{ job.status }}`, see [this GitHub Action called `determine-workflow-conclusion`](https://github.com/jmpa-io/determine-workflow-conclusion).
+
+With if conditionals ([see doc](https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#job-status-check-functions)):
 ```yaml
 - name: Post to Slack.
   if: success() # accepts: success(), always(), cancelled(), failure()
-  uses: jmpa-io/post-to-slack@v0.0.1
+  uses: jmpa-io/post-to-slack@main
   with:
     webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
     status: ${{ job.status }}
 ```
 
-## Inputs
+## `inputs`
 
 ### (required) `webhook`
 
@@ -43,24 +46,3 @@ by a custom Slack App in your Slack workspace.
 ### (required) `status`
 
 The status of the running GitHub Action job.
-
-## Webhook?
-
-* [To create the webhook used by this GitHub Action, follow the steps in this doc and create a custom Slack App for your Slack workspace.](https://api.slack.com/messaging/webhooks)
-
-## Pushing new tag?
-
-Using a <kbd>terminal</kbd>, run:
-
-```bash
-git tag v<version>
-git push origin v<version>
-
-# for example
-git tag v0.0.1
-git push origin v0.0.1
-```
-
-%SCRIPTS_TABLE%
-
-%HOW_TO_USE_TEMPLATE%
