@@ -1,16 +1,16 @@
 <!-- markdownlint-disable MD041 MD010 MD034 -->
-[![post-to-slack](https://github.com/jmpa-io/post-to-slack/actions/workflows/cicd.yml/badge.svg)](https://github.com/jmpa-io/post-to-slack/actions/workflows/cicd.yml)
-[![post-to-slack](https://github.com/jmpa-io/post-to-slack/actions/workflows/README.yml/badge.svg)](https://github.com/jmpa-io/post-to-slack/actions/workflows/README.yml)
+[![README.yml](https://github.com/jmpa-io/post-to-slack/actions/workflows/README.yml/badge.svg)](https://github.com/jmpa-io/post-to-slack/actions/workflows/README.yml)
+[![cicd.yml](https://github.com/jmpa-io/post-to-slack/actions/workflows/cicd.yml/badge.svg)](https://github.com/jmpa-io/post-to-slack/actions/workflows/cicd.yml)
 
 <p align="center">
-  <img src="img/logo.png"/>
+  <img src="docs/logo.png"/>
 </p>
 
 # `post-to-slack`
 
 ```diff
-+ 🐋 A GitHub Action for sending notifications from running jobs to Slack (via
-+ a given webhook).
++ 🐋 A GitHub Action for sending notifications from running jobs to Slack (via a
++ given webhook).
 ```
 
 * Inspired by https://github.com/8398a7/action-slack.
