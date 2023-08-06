@@ -14,8 +14,8 @@
 ## `usage`
 
 General:
+
 ```yaml
-# general
 - name: Post to Slack.
   uses: jmpa-io/post-to-slack@main
   with:
@@ -27,6 +27,7 @@ General:
 > If you're unsure how to retrieve the `${{ job.status }}`, see [this GitHub Action called `determine-workflow-conclusion`](https://github.com/jmpa-io/determine-workflow-conclusion).
 
 With if conditionals ([see doc](https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#job-status-check-functions)):
+
 ```yaml
 - name: Post to Slack.
   if: success() # accepts: success(), always(), cancelled(), failure()
