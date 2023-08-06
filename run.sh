@@ -67,8 +67,6 @@ esac
 
 # query to execute.
 # shellcheck disable=SC2162
-# TODO add time of event here.
-# TODO can the text $msg be apart of the blocks?
 read -d '' q <<@
 {
   "text": "$msg",
