@@ -26,7 +26,7 @@ General:
     webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
     status: ${{ job.status }}
 ```
-> If you're unsure how to create the `${{ secrets.SLACK_WEBHOOK_URL }}`, see [this doc from Slack around creating a custom Slack App for your Slack workspace](ttps://api.slack.com/messaging/webhooks).
+> If you're unsure how to create the `${{ secrets.SLACK_WEBHOOK_URL }}`, see [this doc from Slack around creating a custom Slack App for your Slack workspace](https://api.slack.com/messaging/webhooks).
 
 > If you're unsure how to retrieve the `${{ job.status }}`, see [this GitHub Action called `determine-workflow-conclusion`](https://github.com/jmpa-io/determine-workflow-conclusion).
 
