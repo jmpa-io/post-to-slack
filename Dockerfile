@@ -4,6 +4,6 @@ RUN apk add --update --no-cache \
     jq \
     curl \
     && rm -rf /var/cache/apk
-WORKDIR /
+WORKDIR /action
 COPY run.sh .
-ENTRYPOINT ["/run.sh"]
+ENTRYPOINT ["/action/run.sh"]
