@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # posts a formatted message to a given Slack channel, via a given webhook.
+set -euo pipefail
 
 # funcs.
 die() { echo "$1" >&2; exit "${2:-1}"; }
@@ -11,6 +12,7 @@ diejq() { echo "$1" >&2; jq '.' <<< "$2"; exit "${3:-1}"; }
 
 # check deps.
 deps=(curl jq)
+missing=()
 for dep in "${deps[@]}"; do
   hash "$dep" 2>/dev/null || missing+=("$dep")
 done
@@ -27,7 +29,7 @@ missing=()
 [[ -z "$webhook" ]] && { missing+=("webhook"); }
 [[ -z "$status" ]] && { missing+=("status"); }
 if [[ ${#missing[@]} -ne 0 ]]; then
-  [[ ${#missing[@]} -gt 1 ]] && { s="s"; }
+  s=""; [[ ${#missing[@]} -gt 1 ]] && { s="s"; }
   die "missing input parameter${s}: ${missing[*]}"
 fi
 
@@ -65,54 +67,59 @@ cancelled)
 *) die "missing $status implementation"
 esac
 
-# query to execute.
-# shellcheck disable=SC2162
-read -d '' q <<@
-{
-  "text": "$msg",
-  "attachments": [
-    {
-      "color": "$color",
-      "blocks": [
-        {
-          "type": "section",
-          "fields": [
-            {
-              "type": "mrkdwn",
-              "text": "*Branch:*\\\\n<https://github.com/$repo/tree/$branch|$branch>"
-            },
-            {
-              "type": "mrkdwn",
-              "text": "*Commit:*\\\\n<https://github.com/$repo/commit/$commit|$commit>"
-            },
-            {
-              "type": "mrkdwn",
-              "text": "*Triggered by:*\\\\n<https://github.com/$actor>"
-            },
-            {
-              "type": "mrkdwn",
-              "text": "*Event:*\\\\n$event"
-            }
-          ]
-        },
-        {
-          "type": "context",
-          "elements": [
-            {
-              "type": "mrkdwn",
-              "text": "\`#$buildNumber\` | <https://github.com/$repo/actions/runs/$runId/workflow|:page_facing_up:> | :clock1: $date"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-@
-
-# validate query is valid json.
-[[ $(<<<"$q" jq '. | tojson') ]] \
-  || die "query is an invalid json payload"
+# build JSON payload safely using jq to handle special characters in variable values.
+q=$(jq -n \
+  --arg msg        "$msg" \
+  --arg color      "$color" \
+  --arg repo       "$repo" \
+  --arg branch     "$branch" \
+  --arg commit     "$commit" \
+  --arg actor      "$actor" \
+  --arg event      "$event" \
+  --arg buildNumber "$buildNumber" \
+  --arg runId      "$runId" \
+  --arg date       "$date" \
+  '{
+    "text": $msg,
+    "attachments": [
+      {
+        "color": $color,
+        "blocks": [
+          {
+            "type": "section",
+            "fields": [
+              {
+                "type": "mrkdwn",
+                "text": ("*Branch:*\n<https://github.com/" + $repo + "/tree/" + $branch + "|" + $branch + ">")
+              },
+              {
+                "type": "mrkdwn",
+                "text": ("*Commit:*\n<https://github.com/" + $repo + "/commit/" + $commit + "|" + $commit + ">")
+              },
+              {
+                "type": "mrkdwn",
+                "text": ("*Triggered by:*\n<https://github.com/" + $actor + ">")
+              },
+              {
+                "type": "mrkdwn",
+                "text": ("*Event:*\n" + $event)
+              }
+            ]
+          },
+          {
+            "type": "context",
+            "elements": [
+              {
+                "type": "mrkdwn",
+                "text": ("`#" + $buildNumber + "` | <https://github.com/" + $repo + "/actions/runs/" + $runId + "/workflow|:page_facing_up:> | :clock1: " + $date)
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }') \
+  || die "failed to build JSON payload"
 
 # post query to webhook.
 # https://api.slack.com/messaging/webhooks
