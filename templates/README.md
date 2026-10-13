@@ -24,7 +24,7 @@ General:
 ```
 > If you're unsure how to create the `${{ secrets.SLACK_WEBHOOK_URL }}`, see [this doc from Slack around creating a custom Slack App for your Slack workspace](https://api.slack.com/messaging/webhooks).
 
-> If you're unsure how to retrieve the `${{ job.status }}`, see [this GitHub Action called `determine-workflow-conclusion`](https://github.com/jmpa-io/determine-workflow-conclusion).
+> If you want the status of a whole workflow (not just the current job), run this from a final job with `needs: [...]` and `if: always()`, and derive it from `needs.*.result` (see [`99-post-to-slack`](https://github.com/jmpa-io/pipelines/blob/main/.github/workflows/99-post-to-slack.yml) in `jmpa-io/pipelines`, which does this for you when you pass `needs: ${{ toJSON(needs) }}`).
 
 With if conditionals ([see doc](https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#job-status-check-functions)):
 
