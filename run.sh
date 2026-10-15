@@ -24,9 +24,15 @@ fi
 # check required parameters are given.
 # https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepswith
 webhook="$INPUT_WEBHOOK"
+token="$INPUT_TOKEN"
+channel="$INPUT_CHANNEL"
 status="$INPUT_STATUS"
 missing=()
-[[ -z "$webhook" ]] && { missing+=("webhook"); }
+if [[ -z "$webhook" ]]; then
+  # no webhook given: a bot token + channel are needed instead.
+  [[ -z "$token" ]] && { missing+=("webhook or token"); }
+  [[ -n "$token" && -z "$channel" ]] && { missing+=("channel"); }
+fi
 [[ -z "$status" ]] && { missing+=("status"); }
 if [[ ${#missing[@]} -ne 0 ]]; then
   s=""; [[ ${#missing[@]} -gt 1 ]] && { s="s"; }
@@ -121,13 +127,30 @@ q=$(jq -n \
   }') \
   || die "failed to build JSON payload"
 
-# post query to webhook.
-# https://api.slack.com/messaging/webhooks
-echo "##[group]Posting message to webhook"
-resp=$(curl -s "$webhook" \
-  -H "Content-type: application/json" \
-  -d "$q") \
-  || die "failed curl to post message to webhook"
-[[ "$resp" != "ok" ]] \
-  && die "non-successful message returned when posting message to webhook: $resp"
-echo "##[endgroup]"
+if [[ -n "$webhook" ]]; then
+  # post query to webhook.
+  # https://api.slack.com/messaging/webhooks
+  echo "##[group]Posting message to webhook"
+  resp=$(curl -s "$webhook" \
+    -H "Content-type: application/json" \
+    -d "$q") \
+    || die "failed curl to post message to webhook"
+  [[ "$resp" != "ok" ]] \
+    && die "non-successful message returned when posting message to webhook: $resp"
+  echo "##[endgroup]"
+else
+  # post query as a bot, via chat.postMessage.
+  # https://api.slack.com/methods/chat.postMessage
+  echo "##[group]Posting message to channel"
+  q=$(jq --arg channel "$channel" '. + {channel: $channel}' <<< "$q") \
+    || die "failed to add channel to JSON payload"
+  resp=$(curl -s "https://slack.com/api/chat.postMessage" \
+    -H "Authorization: Bearer $token" \
+    -H "Content-type: application/json; charset=utf-8" \
+    -d "$q") \
+    || die "failed curl to post message to channel"
+  ok=$(jq -r '.ok' <<< "$resp" 2>/dev/null)
+  [[ "$ok" != "true" ]] \
+    && die "non-successful message returned when posting to channel: $(jq -r '.error // "unknown"' <<< "$resp" 2>/dev/null)"
+  echo "##[endgroup]"
+fi
