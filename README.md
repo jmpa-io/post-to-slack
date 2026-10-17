@@ -1,16 +1,15 @@
 <!-- markdownlint-disable MD041 MD010 MD034 -->
-[![README.yml](https://github.com/jmpa-io/post-to-slack/actions/workflows/README.yml/badge.svg)](https://github.com/jmpa-io/post-to-slack/actions/workflows/README.yml)
-[![cicd.yml](https://github.com/jmpa-io/post-to-slack/actions/workflows/cicd.yml/badge.svg)](https://github.com/jmpa-io/post-to-slack/actions/workflows/cicd.yml)
+[![./README.yml](https://github.com/jmpa-io/post-to-slack/actions/workflows/./README.yml/badge.svg)](https://github.com/jmpa-io/post-to-slack/actions/workflows/./README.yml)[![./cicd.yml](https://github.com/jmpa-io/post-to-slack/actions/workflows/./cicd.yml/badge.svg)](https://github.com/jmpa-io/post-to-slack/actions/workflows/./cicd.yml)
 
 <p align="center">
   <img src="docs/logo.png"/>
 </p>
 
-# `post-to-slack`
+# ``
 
 ```diff
-+ 🐋 A GitHub Action for sending notifications from running jobs to Slack (via a
-+ given webhook).
++ 🐋 A GitHub Action for sending notifications from running jobs to Slack (via
++ a given webhook).
 ```
 
 * Inspired by [`action-slack` by `8398a7`](https://github.com/8398a7/action-slack); Created using [this doc](https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/creating-a-docker-container-action) from GitHub.
