@@ -1,0 +1,9 @@
+.git
+.github
+.claude
+docs
+templates
+tests
+NOTES.md
+README.md
+Makefile*
