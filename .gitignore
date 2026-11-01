@@ -15,3 +15,7 @@ dist/
 
 # ignore compiled binaries in root.
 /main
+
+# ignore local audit notes.
+/NOTES.md
+/.test-tmp/
