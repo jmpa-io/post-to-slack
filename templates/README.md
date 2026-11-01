@@ -22,6 +22,17 @@ General:
     webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
     status: ${{ job.status }}
 ```
+Posting as a bot instead of a webhook:
+
+```yaml
+- name: Post to Slack.
+  uses: jmpa-io/post-to-slack@main
+  with:
+    token: ${{ secrets.SLACK_BOT_TOKEN }}
+    channel: C0123456789
+    status: ${{ job.status }}
+```
+
 > If you're unsure how to create the `${{ secrets.SLACK_WEBHOOK_URL }}`, see [this doc from Slack around creating a custom Slack App for your Slack workspace](https://api.slack.com/messaging/webhooks).
 
 > If you want the status of a whole workflow (not just the current job), run this from a final job with `needs: [...]` and `if: always()`, and derive it from `needs.*.result` (see [`99-post-to-slack`](https://github.com/jmpa-io/pipelines/blob/main/.github/workflows/99-post-to-slack.yml) in `jmpa-io/pipelines`, which does this for you when you pass `needs: ${{ toJSON(needs) }}`).
@@ -39,11 +50,22 @@ With if conditionals ([see doc](https://docs.github.com/en/free-pro-team@latest/
 
 ## `inputs`
 
-### (required) `webhook`
+### (optional) `webhook`
 
 The Slack webhook to post to. This is created / managed
-by a custom Slack App in your Slack workspace.
+by a custom Slack App in your Slack workspace. Required unless `token` and
+`channel` are given instead.
+
+### (optional) `token`
+
+A Slack bot token (`xoxb-...`) with the `chat:write` scope. Used with `channel`
+when no `webhook` is given.
+
+### (optional) `channel`
+
+The id of the Slack channel to post to (eg. `C0123456789`). Used with `token`.
+The bot must be a member of the channel, or have `chat:write.public`.
 
 ### (required) `status`
 
-The status of the running GitHub Action job.
+The status of the running GitHub Action job (`success`, `failure` or `cancelled`).
