@@ -23,10 +23,10 @@ fi
 
 # check required parameters are given.
 # https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepswith
-webhook="$INPUT_WEBHOOK"
-token="$INPUT_TOKEN"
-channel="$INPUT_CHANNEL"
-status="$INPUT_STATUS"
+webhook="${INPUT_WEBHOOK:-}"
+token="${INPUT_TOKEN:-}"
+channel="${INPUT_CHANNEL:-}"
+status="${INPUT_STATUS:-}"
 missing=()
 if [[ -z "$webhook" ]]; then
   # no webhook given: a bot token + channel are needed instead.
@@ -41,7 +41,7 @@ fi
 
 # vars.
 # https://docs.github.com/en/actions/learn-github-actions/environment-variables#default-environment-variables
-commit="${GITHUB_SHA:0:7}" # use shorthand commit
+commit="${GITHUB_SHA:-}"; commit="${commit:0:7}" # use shorthand commit
 commit="${commit:-commit}"
 repo="${GITHUB_REPOSITORY:-repo}"
 workflow="${GITHUB_WORKFLOW:-workflow}"
@@ -131,7 +131,7 @@ if [[ -n "$webhook" ]]; then
   # post query to webhook.
   # https://api.slack.com/messaging/webhooks
   echo "##[group]Posting message to webhook"
-  resp=$(curl -s "$webhook" \
+  resp=$(curl -sS --max-time 30 --retry 2 "$webhook" \
     -H "Content-type: application/json" \
     -d "$q") \
     || die "failed curl to post message to webhook"
@@ -144,7 +144,7 @@ else
   echo "##[group]Posting message to channel"
   q=$(jq --arg channel "$channel" '. + {channel: $channel}' <<< "$q") \
     || die "failed to add channel to JSON payload"
-  resp=$(curl -s "https://slack.com/api/chat.postMessage" \
+  resp=$(curl -sS --max-time 30 --retry 2 "https://slack.com/api/chat.postMessage" \
     -H "Authorization: Bearer $token" \
     -H "Content-type: application/json; charset=utf-8" \
     -d "$q") \
