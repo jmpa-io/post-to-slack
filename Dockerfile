@@ -1,4 +1,4 @@
-FROM alpine:3.21
+FROM alpine:3.24
 LABEL org.opencontainers.image.source="https://github.com/jmpa-io/post-to-slack" \
       org.opencontainers.image.description="A GitHub Action for sending notifications from running jobs to Slack." \
       org.opencontainers.image.licenses="MIT"
