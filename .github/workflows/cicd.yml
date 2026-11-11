@@ -31,7 +31,7 @@ jobs:
       ADMIN_GITHUB_TOKEN: ${{ secrets.ADMIN_GITHUB_TOKEN }}
 
   test:
-    uses: jmpa-io/pipelines/.github/workflows/20-test.yml@f69ce14cd4c83f97ccaebc845c4b0d08642397c3 # v1.0.0
+    uses: jmpa-io/pipelines/.github/workflows/20-test.yml@9884789a83c7bd495a1852ae9cc605a270440383 # v1.1.0
     secrets:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
